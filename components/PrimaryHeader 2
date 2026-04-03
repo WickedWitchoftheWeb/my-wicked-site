@@ -1,0 +1,40 @@
+import Link from "next/link";
+import Image from "next/image";
+
+export default function PrimaryHeader() {
+  return (
+    <header className="primary-header">
+      <div className="primary-header-inner">
+
+        {/* Logo */}
+        <div className="primary-logo-wrap">
+          <Image
+            src="https://ik.imagekit.io/w1ck3d/logos/white-wicked-moon-transparent.png?updatedAt=1769472155419"
+            alt="The Wicked Witch of the Web logo"
+            width={200}
+            height={400}
+            className="primary-logo"
+            priority
+          />
+        </div>
+
+        {/* Nav */}
+        <nav className="primary-nav">
+          <Link href="/grimoire" className="wicked-link primary-nav-link">
+            Grimoire
+          </Link>
+          <Link href="/grimoire/codex" className="wicked-link primary-nav-link">
+            Codex
+          </Link>
+          <Link href="/wicked-shops" className="wicked-link primary-nav-link">
+            Shop
+          </Link>
+          <Link href="/about" className="wicked-link primary-nav-link">
+            About
+          </Link>
+        </nav>
+
+      </div>
+    </header>
+  );
+}
