@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "../../../lib/stripe";
+             import { NextRequest, NextResponse } from "next/server";
+import { getStripe } from "../../../lib/stripe";
 import { sendGuideEmail } from "../../../lib/email";
 
 type PurchasedItem = {
@@ -9,6 +9,8 @@ type PurchasedItem = {
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
+
     const { sessionId } = await req.json();
 
     if (!sessionId) {
@@ -50,10 +52,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Send guide error:", error);
+
     return NextResponse.json(
       {
         error:
-          error instanceof Error ? error.message : "Unable to send guide email",
+          error instanceof Error
+            ? error.message
+            : "Unable to send guide email",
       },
       { status: 500 }
     );

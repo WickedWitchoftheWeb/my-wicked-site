@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "../../../lib/stripe";
+import { getStripe } from "../../../lib/stripe";
 
 type CartItem = {
   id: string;
@@ -10,6 +10,8 @@ type CartItem = {
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
+
     const { cart } = await req.json();
 
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
@@ -30,7 +32,7 @@ export async function POST(req: NextRequest) {
       price_data: {
         currency: "usd",
         product_data: {
-          name: item.id,
+          name: item.name,
         },
         unit_amount: Math.round(item.price * 100),
       },
@@ -50,6 +52,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error) {
     console.error("Stripe checkout error:", error);
+
     return NextResponse.json(
       {
         error:
